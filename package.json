@@ -1,0 +1,15 @@
+{
+  "name": "web-worker-bus",
+  "version": "1.0.0",
+  "description": "This package makes it easy to host your services in Web Workers and hides the complexity of messaging with them.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webworker",
+    "bus"
+  ],
+  "author": "an.chmelev",
+  "license": "MIT"
+}
