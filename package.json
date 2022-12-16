@@ -8,9 +8,10 @@
   "scripts": {
     "lint": "eslint ./src --ext .ts --quiet",
     "lint:fix": "eslint ./src --ext .ts --fix",
-    "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && copyfiles ./src/types.d.ts ./dist/cjs -f && copyfiles ./src/types.d.ts ./dist/esm -f",
-    "clean": "rm -rf dist",
-    "release": "npm run clean && npm run build && npm publish"
+    "copy-files": "copyfiles ./src/types.d.ts ./release/dist/cjs -f && copyfiles ./src/types.d.ts ./release/dist/esm -f && copyfiles package.json LICENSE README.md ./release -f",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && npm run copy-files",
+    "clean": "rm -rf release",
+    "release": "npm run clean && npm run build && cd release && npm publish"
   },
   "dependencies": {
     "rxjs": "7.8.0"

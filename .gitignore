@@ -25,6 +25,7 @@ typings/
 
 # build
 dist
+release
 
 # Optional eslint cache
 .eslintcache
