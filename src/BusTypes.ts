@@ -85,9 +85,29 @@ export type ReturnCommand = ReturnNextCommand | ReturnErrorCommand | ReturnCompl
 
 export type SendCommand = InitCommand | SendMsgCommand | UnsubscribeCommand;
 
+/**
+ * An enum that tells the bus what the service that is in the web worker is working with.
+ * There is a restriction that methods must be asynchronous (because the message passing procedure itself is)
+ * and there must be only one return type for methods.
+ **/
 export enum ReturnType {
+  /** The service works with promises */
   promise,
+  /** The service works with rxjs observable objects */
   rxjsObservable,
 }
 
-export type OnMessageHandler = (event: MessageEvent<SendCommand>) => void;
+/** Type describing the callback that will be called when a message is received from main thread */
+export type OnMessageHandler = (event: MessageEvent<SendCommand | ReturnCommand>) => void;
+
+/** An interface that provides work with the transport layer for delivering messages between threads */
+export interface ITransport {
+  /** A callback that will be called when a message is received from main thread */
+  onMessage: OnMessageHandler;
+
+  /**
+   * Method for sending messages to the main thread
+   * @param msg - the message to be sent to the main thread
+   */
+  sendMsg(msg: unknown): void;
+}

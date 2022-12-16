@@ -1,6 +1,6 @@
-import { OnMessageHandler, SendCommand } from './BusTypes';
+import { ITransport, OnMessageHandler, SendCommand } from './BusTypes';
 
-export class ObjectCopyTransport {
+export class ObjectCopyTransport implements ITransport {
   constructor(private readonly ctx: Worker) {
     this.ctx.onmessage = this.messageHandler;
   }

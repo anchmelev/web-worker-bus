@@ -7,8 +7,8 @@ import {
   ReturnCompleteCommand,
   InitEventHandler,
   ServiceGetter,
+  ITransport,
 } from './BusTypes';
-import { ObjectCopyTransport } from './ObjectCopyTransport';
 
 type DictionaryFunction = {
   [key: string]: (...args: unknown[]) => unknown;
@@ -25,9 +25,9 @@ export class BusWorker {
 
   getService!: ServiceGetter;
 
-  transport!: ObjectCopyTransport;
+  transport!: ITransport;
 
-  static connectToBus(transport: ObjectCopyTransport, getService: ServiceGetter, initHandler?: InitEventHandler) {
+  static connectToBus(transport: ITransport, getService: ServiceGetter, initHandler?: InitEventHandler) {
     if (this._instance) return;
     if (typeof window !== 'undefined') throw new Error('Class BusWorker must use only in web worker context!');
 
