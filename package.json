@@ -2,9 +2,36 @@
   "name": "web-worker-bus",
   "version": "1.0.0",
   "description": "This package makes it easy to host your services in Web Workers and hides the complexity of messaging with them.",
-  "main": "index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint ./src --ext .ts --quiet"
+  },
+  "dependencies": {
+    "rxjs": "7.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.15",
+    "@typescript-eslint/eslint-plugin": "5.46.1",
+    "@typescript-eslint/parser": "5.46.1",
+    "typescript": "4.9.4",
+    "eslint": "8.29.0",
+    "eslint-config-airbnb-typescript": "17.0.0",
+    "worker-loader": "3.0.8"
+  },
+  "peerDependencies": {
+    "worker-loader": ">=3.0.8"
+  },
+  "files": [
+    "dist/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anchmelev/web-worker-bus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anchmelev/web-worker-bus/issues"
   },
   "keywords": [
     "webworker",

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "outDir": "./dist/esm",
+    "sourceMap": true,
+    "target": "ES6",
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["src"]
+}
