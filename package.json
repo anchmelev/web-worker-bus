@@ -6,7 +6,11 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
   "scripts": {
-    "lint": "eslint ./src --ext .ts --quiet"
+    "lint": "eslint ./src --ext .ts --quiet",
+    "lint:fix": "eslint ./src --ext .ts --fix",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && copyfiles ./src/types.d.ts ./dist/cjs -f && copyfiles ./src/types.d.ts ./dist/esm -f",
+    "clean": "rm -rf dist",
+    "release": "npm run clean && npm run build && npm publish"
   },
   "dependencies": {
     "rxjs": "7.8.0"
@@ -18,7 +22,8 @@
     "typescript": "4.9.4",
     "eslint": "8.29.0",
     "eslint-config-airbnb-typescript": "17.0.0",
-    "worker-loader": "3.0.8"
+    "worker-loader": "3.0.8",
+    "copyfiles": "2.4.1"
   },
   "peerDependencies": {
     "worker-loader": ">=3.0.8"

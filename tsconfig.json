@@ -9,7 +9,7 @@
     "outDir": "./dist/esm",
     "sourceMap": true,
     "target": "ES6",
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types", "src/types.d.ts"]
   },
-  "include": ["src"]
+  "include": ["src", "src/types.d.ts"]
 }
