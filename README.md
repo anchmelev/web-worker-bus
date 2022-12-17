@@ -186,3 +186,6 @@ const productService = userWorkerFactory<ProductService>(PRODUCT_SERVICE, Return
 ```
 
 Now, you can use the proxy userService and productService objects in the ui stream. Typescript will think that you are using real service instances. All the complexity of communicating with a web worker is hidden from the end user of the services. Also, at any time, without changing the code base that uses the services, you can move the location of the services between the threads of your application - remove the web workers altogether or put everything into one web worker, for which it is enough to change only the configuration of the ui thread bus.
+
+## TODO List
+- [ ] Passing data by [transferring ownership](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers#passing_data_by_transferring_ownership_transferable_objects) (transferable objects)
