@@ -24,9 +24,10 @@ In order for the typescript not to give an error, you need to add the following 
 
 ```json
 {
-  "compilerOptions": {
-    "typeRoots": ["./node_modules/web-worker-bus/types.d.ts"]
-  },
+  "include": [
+    "src",
+    "./node_modules/web-worker-bus/dist/esm/types.d.ts"
+  ]
 }
 ```
 
