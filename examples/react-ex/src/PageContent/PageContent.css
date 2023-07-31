@@ -1,9 +1,10 @@
-.wrapper {
+.pageContentWrapper {
   padding: 16px;
   position: relative;
+  height: 600px;
 }
 
-nz-spin {
+.pageContentWrapper_spinner {
   position: absolute;
   left: calc(50% - 13px);
   top: 70px;

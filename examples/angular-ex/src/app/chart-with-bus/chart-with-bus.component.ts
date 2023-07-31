@@ -35,7 +35,7 @@ export class ChartWithBusComponent implements OnInit {
           ],
         };
       },
-      error: (e: any) => console.error(e),
+      error: () => (this.loading = false),
       complete: () => (this.loading = false),
     });
   }

@@ -29,14 +29,13 @@ export class BusWorker {
 
   static connectToBus(transport: ITransport, getService: ServiceGetter, initHandler?: InitEventHandler) {
     if (this._instance) return;
-    // @ts-ignore
     if (typeof window !== 'undefined') throw new Error('Class BusWorker must use only in web worker context!');
 
     this._instance = new BusWorker();
     this._instance.getService = getService;
     this._instance.initHandler = initHandler;
     this._instance.transport = transport;
-    this._instance.transport.onMessage = this._instance.messageHandler as any;
+    this._instance.transport.onMessage = this._instance.messageHandler;
     return;
   }
 

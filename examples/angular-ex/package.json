@@ -24,7 +24,8 @@
     "echarts": "5.4.3",
     "ng-zorro-antd": "16.1.0",
     "@ant-design/icons-angular": "16.0.0",
-    "ngx-echarts": "16.0.0"
+    "ngx-echarts": "16.0.0",
+    "web-worker-bus": "1.2.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.1.5",

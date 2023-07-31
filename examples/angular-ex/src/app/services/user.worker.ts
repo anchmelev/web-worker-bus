@@ -1,7 +1,4 @@
-// import { BusWorker, ObjectCopyTransport, ServiceGetter } from 'web-worker-bus';
-import { BusWorker } from './../../../../../src/BusWorker';
-import { ServiceGetter } from './../../../../../src/BusTypes';
-import { ObjectCopyTransport } from './../../../../../src/ObjectCopyTransport';
+import { BusWorker, ObjectCopyTransport, ServiceGetter } from 'web-worker-bus';
 import { container } from './user.worker.container';
 
 /* eslint-disable-next-line no-restricted-globals */

@@ -5227,6 +5227,13 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
+rxjs@7.8.0:
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.0.tgz#90a938862a82888ff4c7359811a595e14e1e09a4"
+  integrity sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==
+  dependencies:
+    tslib "^2.1.0"
+
 rxjs@7.8.1, rxjs@^7.5.5, rxjs@~7.8.0:
   version "7.8.1"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.1.tgz#6f6f3d99ea8044291efd92e7c7fcf562c4057543"
@@ -5995,6 +6002,13 @@ wcwidth@^1.0.1:
   integrity sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==
   dependencies:
     defaults "^1.0.3"
+
+web-worker-bus@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/web-worker-bus/-/web-worker-bus-1.2.0.tgz#3d350c796b462b390c86bfa8d8ca4018d93d2bef"
+  integrity sha512-6UByBs6AmraxrgOXHmFJMFSp4bFD21zG2Cm+R+VPgNwVf+hShpohEt/6LOLOybTuwU+CX9Cjr7dMXpt9P01big==
+  dependencies:
+    rxjs "7.8.0"
 
 webpack-dev-middleware@6.1.1:
   version "6.1.1"

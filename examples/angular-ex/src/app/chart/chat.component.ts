@@ -34,7 +34,7 @@ export class ChatComponent implements OnInit {
           ],
         };
       },
-      error: (e) => console.error(e),
+      error: () => (this.loading = false),
       complete: () => (this.loading = false),
     });
   }

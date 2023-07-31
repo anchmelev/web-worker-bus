@@ -3,10 +3,16 @@ import ReactEcharts from 'echarts-for-react';
 import { ChartDataItem, useChartConfig } from './useChartConfig';
 import { UserService } from './Services/UserService';
 import { PageContent } from './PageContent/PageContent';
+import { MainThreadBus, ObjectCopyTransport, ReturnType } from 'web-worker-bus';
+import { USER_SERVICE } from './Services/UserWorkerContainer';
 
-const userService = new UserService();
+const worker = new Worker(new URL('./Services/UserWorker', import.meta.url));
+const userTransport = new ObjectCopyTransport(worker);
+MainThreadBus.instance.registerBusWorkers([userTransport]);
+const userWorkerFactory = MainThreadBus.instance.createFactoryService(userTransport);
+const userService = userWorkerFactory<UserService>(USER_SERVICE, ReturnType.rxjsObservable);
 
-export const ChartPage = () => {
+export const ChartWithBusPage = () => {
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
   const [loading, setLoading] = useState(false);
 

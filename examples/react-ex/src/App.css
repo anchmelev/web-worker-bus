@@ -19,3 +19,8 @@
   padding: 24px;
   min-height: 280px;
 }
+
+.app {
+  height: 100%;
+  overflow: hidden;
+}

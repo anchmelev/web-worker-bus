@@ -2,7 +2,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { MainThreadBus } from './../../../../src/MainThreadBus';
 import { NgModule, NgZone } from '@angular/core';
 import { NgObjectCopyTransport } from './ng-object-copy-transport';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -10,9 +9,9 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { PieChartFill, PieChartOutline } from '@ant-design/icons-angular/icons';
-import { ReturnType } from './../../../../src/BusTypes';
 import { USER_SERVICE } from './services/user.worker.container';
 import { UserService } from './services/user.service';
+import { MainThreadBus, ReturnType } from 'web-worker-bus';
 
 const worker = new Worker(new URL('./services/user.worker', import.meta.url));
 const userTransport = new NgObjectCopyTransport(worker);
