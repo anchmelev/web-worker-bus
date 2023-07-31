@@ -111,3 +111,5 @@ export interface ITransport {
    */
   sendMsg(msg: unknown): void;
 }
+
+export type ServiceFactory = <T extends object>(serviceName: string, useReturnType?: ReturnType) => T;

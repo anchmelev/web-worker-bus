@@ -5,8 +5,10 @@ import {
   ITransport,
   ReturnCommand,
   ReturnType,
+  SendCommand,
   SendMsgCommand,
   SendMsgPayload,
+  ServiceFactory,
   UnsubscribeCommand,
 } from './BusTypes';
 
@@ -54,14 +56,17 @@ export class MainThreadBus {
 
   createFactoryService(transport: ITransport) {
     this.tryInit(transport);
-    return <T extends object>(serviceName: string, useReturnType = ReturnType.promise): T => {
-      return new Proxy<T>(new (class MockService {})() as T, {
+
+    const factory: ServiceFactory = (serviceName, useReturnType = ReturnType.promise) => {
+      return new Proxy<any>(new (class MockService {})(), {
         get: (_, methodName) => {
           return (...args: unknown[]) =>
             this.sendMessage({ serviceName, methodName, args: [...args], transport, useReturnType });
         },
       });
     };
+
+    return factory;
   }
 
   private sendMessage({ serviceName, methodName, args, transport, useReturnType }: SendMsgOptions) {
@@ -89,16 +94,16 @@ export class MainThreadBus {
       return new Promise((resolve, reject) => {
         const sub = proxyReceiver$.subscribe({
           next: (v) => {
-            this.dispose(transport, messageId, command.payload);
+            this.disposeTransaction(transport, messageId, command.payload);
             resolve(v);
           },
           error: (e) => {
-            this.dispose(transport, messageId, command.payload);
+            this.disposeTransaction(transport, messageId, command.payload);
             reject(e);
           },
           complete: () => {
             proxySubject.complete();
-            this.dispose(transport, messageId, command.payload);
+            this.disposeTransaction(transport, messageId, command.payload);
           },
         });
         this.saveTransaction(messageId, proxySubject, sub);
@@ -106,18 +111,18 @@ export class MainThreadBus {
     }
 
     return new Observable((observer) => {
-      const sub = proxyReceiver$.pipe(finalize(() => this.dispose(transport, messageId, command.payload))).subscribe({
-        next: (v) => observer.next(v),
-        error: (e) => {
-          this.dispose(transport, messageId, command.payload);
-          observer.error(e);
-        },
-        complete: () => {
-          proxySubject.complete();
-          this.dispose(transport, messageId, command.payload);
-          observer.complete();
-        },
-      });
+      const sub = proxyReceiver$
+        .pipe(finalize(() => this.disposeTransaction(transport, messageId, command.payload)))
+        .subscribe({
+          next: (v) => observer.next(v),
+          error: (e) => {
+            observer.error(e);
+          },
+          complete: () => {
+            proxySubject.complete();
+            observer.complete();
+          },
+        });
 
       this.saveTransaction(messageId, proxySubject, sub);
 
@@ -125,11 +130,13 @@ export class MainThreadBus {
     });
   }
 
-  private dispose(transport: ITransport, messageId: string, payload: SendMsgPayload) {
-    transport.sendMsg({ type: 'UNSUBSCRIBE', payload } as UnsubscribeCommand);
+  private disposeTransaction(transport: ITransport, messageId: string, payload: SendMsgPayload) {
+    if (this.pending.has(messageId)) {
+      transport.sendMsg({ type: 'UNSUBSCRIBE', payload } as UnsubscribeCommand);
+    }
     const msgTransaction = this.pending.get(messageId);
-    msgTransaction?.proxyReceiverSubscription?.unsubscribe();
     this.pending.delete(messageId);
+    msgTransaction?.proxyReceiverSubscription?.unsubscribe();
   }
 
   private saveTransaction(messageId: string, proxySubject: Subject<unknown>, subscription: Subscription) {
@@ -151,7 +158,9 @@ export class MainThreadBus {
     }
   }
 
-  private handleTransportMsg = ({ data }: MessageEvent<ReturnCommand>) => {
+  private handleTransportMsg = ({ data }: MessageEvent<ReturnCommand | SendCommand>) => {
+    if (data.type === 'INIT' || data.type === 'SEND_MSG' || data.type === 'UNSUBSCRIBE') return;
+
     const { messageId } = data.payload;
     const msgTransaction = this.pending.get(messageId);
 
