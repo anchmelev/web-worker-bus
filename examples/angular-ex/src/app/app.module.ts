@@ -1,32 +1,49 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NZ_I18N } from 'ng-zorro-antd/i18n';
-import { en_US } from 'ng-zorro-antd/i18n';
-import { registerLocaleData } from '@angular/common';
-import en from '@angular/common/locales/en';
-import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
+import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MainThreadBus } from './../../../../src/MainThreadBus';
+import { NgModule, NgZone } from '@angular/core';
+import { NgObjectCopyTransport } from './ng-object-copy-transport';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { PieChartFill, PieChartOutline } from '@ant-design/icons-angular/icons';
+import { ReturnType } from './../../../../src/BusTypes';
+import { USER_SERVICE } from './services/user.worker.container';
+import { UserService } from './services/user.service';
 
-registerLocaleData(en);
+const worker = new Worker(new URL('./services/user.worker', import.meta.url));
+const userTransport = new NgObjectCopyTransport(worker);
+MainThreadBus.instance.registerBusWorkers([userTransport]);
+const userWorkerFactory = MainThreadBus.instance.createFactoryService(userTransport);
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    NzLayoutModule,
+    NzMenuModule,
+    NzIconModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
+    NzIconModule.forChild([PieChartFill, PieChartOutline]),
   ],
   providers: [
-    { provide: NZ_I18N, useValue: en_US }
+    {
+      provide: USER_SERVICE,
+      useFactory: () => userWorkerFactory<UserService>(USER_SERVICE, ReturnType.rxjsObservable),
+    },
+    UserService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private ngZone: NgZone) {
+    userTransport.ngZone = this.ngZone;
+  }
+}

@@ -1,6 +1,7 @@
-# Angular
+# Angular Example
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.5.
+You can read about using web workers in Angular [here](https://angular.io/guide/web-worker)
 
 ## Development server
 

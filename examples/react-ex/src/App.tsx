@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { PieChartOutlined } from '@ant-design/icons';
+import { Layout, Menu } from 'antd';
+import { Content } from 'antd/es/layout/layout';
+import Sider from 'antd/es/layout/Sider';
+import { ChartPage } from './ChartPage';
 
-function App() {
+export function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout className="app">
+      <Sider trigger={null}>
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={['1']}
+          items={[
+            {
+              key: '1',
+              icon: <PieChartOutlined />,
+              label: 'Chart',
+            },
+          ]}
+        />
+      </Sider>
+      <Layout className="site-layout">
+        <Content className="site-layout-background">
+          <ChartPage />
+        </Content>
+      </Layout>
+    </Layout>
   );
 }
-
-export default App;

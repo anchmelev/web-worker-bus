@@ -1,4 +1,21 @@
 <!-- NG-ZORRO -->
-<a href="https://github.com/NG-ZORRO/ng-zorro-antd" target="_blank" style="display: flex;align-items: center;justify-content: center;height: 100%;width: 100%;">
-  <img height="300" src="https://img.alicdn.com/tfs/TB1X.qJJgHqK1RjSZFgXXa7JXXa-89-131.svg">
-</a>
+<nz-layout>
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed">
+    <div class="logo"></div>
+    <ul nz-menu  nzTheme="dark" nzMode="inline">
+      <li nz-menu-item nzSelected routerLink="/chart" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <span nz-icon nzType="pie-chart" nzTheme="outline"></span>
+        <span>Chart</span>
+      </li>
+      <li nz-menu-item routerLink="/chart-with-bus" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <span nz-icon nzType="pie-chart" nzTheme="fill"></span>
+        <span>Chart with bus</span>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
