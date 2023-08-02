@@ -18,9 +18,9 @@ type CommentDTO = {
   };
 };
 
-export class UserService {
+export class UserServiceWithObservable {
   /** давайте построи график зависимости пользователя количества его комментариев  */
-  public getUserCommentsByObservable(): Observable<UserComments[]> {
+  public getUserComments(): Observable<UserComments[]> {
     const resp = fromFetch('https://dummyjson.com/comments', {
       selector: (response) => response.json() as Promise<{ comments: CommentDTO[] }>,
     }).pipe(
@@ -40,21 +40,23 @@ export class UserService {
 
     return resp;
   }
+}
 
-  // public async getUserCommentsByPromise(): Promise<UserComments[]> {
-  //   const resp = await fetch('https://dummyjson.com/comments');
-  //   const data = (await resp.json()) as { comments: CommentDTO[] };
-  //   const group = groupBy(data.comments, (item) => item.user.id);
-  //   doHardWork();
-  //   return [...Object.entries(group)].map(
-  //     ([userId, comments]) =>
-  //       ({
-  //         userId,
-  //         userName: (comments as CommentDTO[])[0].user.username,
-  //         commentCount: (comments as CommentDTO[]).length,
-  //       } as UserComments),
-  //   );
-  // }
+export class UserServiceWithPromise {
+  public async getUserComments(): Promise<UserComments[]> {
+    const resp = await fetch('https://dummyjson.com/comments');
+    const data = (await resp.json()) as { comments: CommentDTO[] };
+    const group = groupBy(data.comments, (item) => item.user.id);
+    doHardWork();
+    return [...Object.entries(group)].map(
+      ([userId, comments]) =>
+        ({
+          userId,
+          userName: (comments as CommentDTO[])[0].user.username,
+          commentCount: (comments as CommentDTO[]).length,
+        } as UserComments),
+    );
+  }
 }
 
 const groupBy = <T>(data: T[], keyFn: (item: T) => string | number) =>

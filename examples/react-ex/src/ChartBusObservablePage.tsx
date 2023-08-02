@@ -1,24 +1,24 @@
 import { useEffect, useState } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import { ChartDataItem, useChartConfig } from './useChartConfig';
-import { UserService } from './Services/UserService';
 import { PageContent } from './PageContent/PageContent';
-import { MainThreadBus, ObjectCopyTransport, ReturnType } from 'web-worker-bus';
-import { USER_SERVICE } from './Services/UserWorkerContainer';
+import { ReturnType } from 'web-worker-bus';
+import { UserServiceWithObservable } from './Services/UserService';
+import { USER_SERVICE_WITH_OBSERVABLE } from './Services/UserWorkerContainer';
+import { userWorkerFactory } from './userWorkerFactory';
 
-const worker = new Worker(new URL('./Services/UserWorker', import.meta.url));
-const userTransport = new ObjectCopyTransport(worker);
-MainThreadBus.instance.registerBusWorkers([userTransport]);
-const userWorkerFactory = MainThreadBus.instance.createFactoryService(userTransport);
-const userService = userWorkerFactory<UserService>(USER_SERVICE, ReturnType.rxjsObservable);
+const userService = userWorkerFactory<UserServiceWithObservable>(
+  USER_SERVICE_WITH_OBSERVABLE,
+  ReturnType.rxjsObservable,
+);
 
-export const ChartWithBusPage = () => {
+export const ChartBusObservablePage = () => {
   const [chartData, setChartData] = useState<ChartDataItem[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    const subscription$ = userService.getUserCommentsByObservable().subscribe({
+    const subscription$ = userService.getUserComments().subscribe({
       next: (userComments) => {
         const data = userComments.map((item) => ({
           id: item.userId,

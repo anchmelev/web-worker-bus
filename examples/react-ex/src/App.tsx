@@ -5,14 +5,15 @@ import { Content } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
 import { ChartPage } from './ChartPage';
 import { useState } from 'react';
-import { ChartWithBusPage } from './ChartWithBusPage';
+import { ChartBusObservablePage } from './ChartBusObservablePage';
+import { ChartBusPromisePage } from './ChartBusPromisePage';
 
 export function App() {
   const [selectedItem, setSelectedItem] = useState('1');
 
   return (
     <Layout className="app">
-      <Sider trigger={null}>
+      <Sider trigger={null} width={280}>
         <Menu
           theme="dark"
           mode="inline"
@@ -28,14 +29,21 @@ export function App() {
             {
               key: '2',
               icon: <PieChartFilled />,
-              label: 'Chart with bus',
+              label: 'Chart with bus and observable',
+            },
+            {
+              key: '3',
+              icon: <PieChartFilled />,
+              label: 'Chart with bus and promise',
             },
           ]}
         />
       </Sider>
       <Layout className="site-layout">
         <Content className="site-layout-background">
-          {selectedItem === '1' ? <ChartPage /> : <ChartWithBusPage />}
+          {selectedItem === '1' && <ChartPage />}
+          {selectedItem === '2' && <ChartBusObservablePage />}
+          {selectedItem === '3' && <ChartBusPromisePage />}
         </Content>
       </Layout>
     </Layout>

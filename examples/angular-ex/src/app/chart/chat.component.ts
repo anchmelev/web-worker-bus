@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EChartsOption, PieSeriesOption } from 'echarts';
 import { getChartConfig } from '../get-chart-config';
-import { UserService } from '../services/user.service';
+import { UserServiceWithObservable } from '../services/user.service';
 
 @Component({
   selector: 'app-chart',
@@ -9,7 +9,7 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./chart.component.less'],
 })
 export class ChatComponent implements OnInit {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserServiceWithObservable) {}
 
   chartOption = getChartConfig('Simple fetch data');
   mergeOptions: EChartsOption = {};
@@ -17,7 +17,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.userService.getUserCommentsByObservable().subscribe({
+    this.userService.getUserComments().subscribe({
       next: (chartData) => {
         const series = this.chartOption.series as PieSeriesOption[];
 

@@ -1,15 +1,18 @@
 <!-- NG-ZORRO -->
 <nz-layout>
-  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed">
-    <div class="logo"></div>
-    <ul nz-menu  nzTheme="dark" nzMode="inline">
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" nzWidth="280px">
+    <ul nz-menu nzTheme="dark" nzMode="inline">
       <li nz-menu-item nzSelected routerLink="/chart" routerLinkActive="active" ariaCurrentWhenActive="page">
         <span nz-icon nzType="pie-chart" nzTheme="outline"></span>
         <span>Chart</span>
       </li>
-      <li nz-menu-item routerLink="/chart-with-bus" routerLinkActive="active" ariaCurrentWhenActive="page">
+      <li nz-menu-item routerLink="/chart-bus-and-observable" routerLinkActive="active" ariaCurrentWhenActive="page">
         <span nz-icon nzType="pie-chart" nzTheme="fill"></span>
-        <span>Chart with bus</span>
+        <span>Chart with bus and observable</span>
+      </li>
+      <li nz-menu-item routerLink="/chart-bus-and-promise" routerLinkActive="active" ariaCurrentWhenActive="page">
+        <span nz-icon nzType="pie-chart" nzTheme="fill"></span>
+        <span>Chart with bus and promise</span>
       </li>
     </ul>
   </nz-sider>

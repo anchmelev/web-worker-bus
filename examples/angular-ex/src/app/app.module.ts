@@ -9,8 +9,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { PieChartFill, PieChartOutline } from '@ant-design/icons-angular/icons';
-import { USER_SERVICE } from './services/user.worker.container';
-import { UserService } from './services/user.service';
+import { USER_SERVICE_WITH_OBSERVABLE, USER_SERVICE_WITH_PROMISE } from './services/user.worker.container';
+import { UserServiceWithObservable, UserServiceWithPromise } from './services/user.service';
 import { MainThreadBus, ReturnType } from 'web-worker-bus';
 
 const worker = new Worker(new URL('./services/user.worker', import.meta.url));
@@ -34,10 +34,15 @@ const userWorkerFactory = MainThreadBus.instance.createFactoryService(userTransp
   ],
   providers: [
     {
-      provide: USER_SERVICE,
-      useFactory: () => userWorkerFactory<UserService>(USER_SERVICE, ReturnType.rxjsObservable),
+      provide: USER_SERVICE_WITH_OBSERVABLE,
+      useFactory: () =>
+        userWorkerFactory<UserServiceWithObservable>(USER_SERVICE_WITH_OBSERVABLE, ReturnType.rxjsObservable),
     },
-    UserService,
+    {
+      provide: USER_SERVICE_WITH_PROMISE,
+      useFactory: () => userWorkerFactory<UserServiceWithPromise>(USER_SERVICE_WITH_PROMISE, ReturnType.promise),
+    },
+    UserServiceWithObservable,
   ],
   bootstrap: [AppComponent],
 })
