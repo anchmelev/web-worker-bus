@@ -190,3 +190,4 @@ Now, you can use the proxy userService and productService objects in the ui stre
 
 ## TODO List
 - [ ] Passing data by [transferring ownership](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers#passing_data_by_transferring_ownership_transferable_objects) (transferable objects)
+- [ ] Cover the library with tests
