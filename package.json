@@ -44,8 +44,11 @@
   },
   "keywords": [
     "webworker",
-    "bus",
-    "typescript"
+    "event bus",
+    "typescript",
+    "angular",
+    "react",
+    "vue"
   ],
   "author": "an.chmelev",
   "license": "MIT"
