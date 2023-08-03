@@ -44,7 +44,9 @@
   },
   "keywords": [
     "webworker",
-    "event bus",
+    "concurrency",
+    "communication",
+    "message-bus",
     "typescript",
     "angular",
     "react",
